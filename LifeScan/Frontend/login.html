@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeScan - Iniciar Sesión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            
+            --border: #e5e7eb;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+            
+            --radius: 16px;
+            --radius-sm: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #f8fafc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            max-width: 1100px;
+            width: 100%;
+            height: 650px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 60px 50px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* FONDO PNG LOCAL - Cambia la ruta por tu PNG local */
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('file:///C:/Documentos/LifeScan/Frontend/Imagenes/LogoY.png') center/cover no-repeat;
+            opacity: 0.15;
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        /* LOGO LOCAL - Cambia el src por tu logo PNG local */
+        .login-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            object-fit: contain;
+        }
+
+        .login-logo h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .login-tagline {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            margin-top: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .feature-text {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .login-right {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--bg-card);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h2 {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-light);
+        }
+
+        .btn {
+            padding: 16px 30px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(79, 70, 229, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, var(--accent) 0%, #34d399 100%);
+            color: white;
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        .btn-demo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            margin-top: 25px;
+            text-align: center;
+            color: #0369a1;
+            font-size: 14px;
+        }
+
+        .demo-info strong {
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .login-container {
+                flex-direction: column;
+                height: auto;
+                max-width: 500px;
+            }
+            
+            .login-left, .login-right {
+                padding: 40px 30px;
+            }
+            
+            .login-left {
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            }
+            
+            .login-right {
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-left, .login-right {
+                padding: 30px 20px;
+            }
+            
+            .login-logo h1 {
+                font-size: 26px;
+            }
+            
+            .login-header h2 {
+                font-size: 24px;
+            }
+        }
+
+        /* Estilos para el icono de Google */
+        .google-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            margin-right: 8px;
+        }
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* Mantén tus estilos existentes */
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            width: 100%;
+            padding: 16px 30px;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Panel izquierdo: Información y branding -->
+        <div class="login-left">
+            <div class="login-logo">
+                <!-- CAMBIA ESTA RUTA POR TU LOGO PNG LOCAL -->
+                <img src="Imagenes/LogoLife.png" alt="VidaScan Logo">
+                <h1>LifeScan</h1>
+            </div>
+            
+            <p class="login-tagline">
+                Tu aliado en salud predictiva. Analiza imágenes médicas, responde cuestionarios inteligentes y recibe orientación instantánea para el cuidado preventivo de tu bienestar.
+            </p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-text">Análisis predictivo con IA avanzada</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">❤️</div>
+                    <div class="feature-text">Evaluación de riesgo cardíaco y cerebral</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-text">Compatibilidad total con cualquier dispositivo</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-text">Tus datos médicos protegidos y cifrados</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel derecho: Formulario de login -->
+        <div class="login-right">
+            <div class="login-header">
+                <h2>Iniciar Sesión</h2>
+                <p></p>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" class="form-control" placeholder="usuario@ejemplo.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <div class="forgot-password">
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <span>🔐</span> Iniciar Sesión
+                </button>
+                
+                <button type="button" class="btn btn-secondary">
+                    <img src="Imagenes/Google.png" alt="Google" class="google-icon">
+                    Continuar con Google
+                </button>
+                
+                <!-- Botón de Demo para acceso rápido -->
+                <button type="button" class="btn btn-demo" id="demoBtn">
+                    <span></span> Ver Demo Rápida
+                </button>
+                
+                <div class="demo-info">
+                    <strong>Modo Demo:</strong> Accede directamente al sistema con datos de prueba para explorar todas las funciones.
+                </div>
+            </form>
+            
+            <div class="login-footer">
+                <p>¿No tienes una cuenta? <a href="#">Solicita acceso profesional</a></p>
+                <p>© 2024 VidaScan - Salud Predictiva Inteligente</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Manejar el formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Validación básica
+            if (!email || !password) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+            
+            // Simulación de login exitoso
+            // En una aplicación real, aquí harías una petición al servidor
+            
+            // Mostrar mensaje de éxito
+            const originalText = this.querySelector('.btn-primary').innerHTML;
+            const btn = this.querySelector('.btn-primary');
+            btn.innerHTML = '<span>✓</span> Accediendo...';
+            btn.disabled = true;
+            
+            // Simular proceso de login
+            setTimeout(() => {
+                // Guardar en localStorage que el usuario inició sesión
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                // Redirigir al dashboard principal
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+        
+        // Botón de Demo - Acceso rápido
+        document.getElementById('demoBtn').addEventListener('click', function() {
+            // Mostrar mensaje de carga
+            const originalText = this.innerHTML;
+            this.innerHTML = '<span>⏳</span> Cargando demo...';
+            this.disabled = true;
+            
+            // Simular carga de datos demo
+            setTimeout(() => {
+                // Guardar datos demo en localStorage
+                localStorage.setItem('demoMode', 'true');
+                localStorage.setItem('demoUser', 'demo@vidaspan.com');
+                localStorage.setItem('demoSession', new Date().toISOString());
+                
+                // Redirigir al dashboard principal
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+        
+   
+        // Efecto de entrada para el formulario
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.login-form');
+            form.style.opacity = '0';
+            form.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                form.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                form.style.opacity = '1';
+                form.style.transform = 'translateY(0)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
