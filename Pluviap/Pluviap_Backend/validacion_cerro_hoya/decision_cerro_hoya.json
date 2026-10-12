@@ -1,0 +1,38 @@
+{
+  "nombre_proyecto": "PLUVIAP EXYNUS SAFE",
+  "decision": "NO_INCORPORAR_CERRO_HOYA_COMO_FEATURE_PREDICTIVA_EN_ESTA_VERSION",
+  "mantener_como": "MONITOREO_HIDROMETEOROLOGICO_AGUAS_ARRIBA_Y_VARIABLE_EXPLICATIVA",
+  "reasons": [
+    "En la corrida reproducible seed 42, F2 pasó de 0.662651 a 0.647059 y FP de 28 a 30.",
+    "En el protocolo con purga de 72 h, el F2 medio cambió de 0.535024 a 0.531794 y los FP medios de 28.60 a 32.10.",
+    "Las variables Cerro Hoya tuvieron importancia nula o casi nula en las diez corridas; la lluvia 1d fue 0 en 10/10.",
+    "Activar la regla SAFE predefinida de Cerro Hoya (50 mm/3d o 100 mm/7d) mantuvo Recall=1.0 pero aumentó FP de 28 a 35 y redujo F2 de 0.662651 a 0.611111.",
+    "La señal de Cerro Hoya sí muestra diferencias descriptivas entre positivos y negativos, por lo que se conserva para monitoreo/explicación y futuras validaciones prospectivas."
+  ],
+  "seed42": {
+    "A": {
+      "tn": 325,
+      "fp": 28,
+      "fn": 0,
+      "tp": 11,
+      "precision": 0.28205128205128205,
+      "recall": 1.0,
+      "f2": 0.6626506024096386,
+      "pr_auc": 0.19304226475279107,
+      "roc_auc": 0.9317537986093227,
+      "threshold": 0.01002760510891676
+    },
+    "B": {
+      "tn": 323,
+      "fp": 30,
+      "fn": 0,
+      "tp": 11,
+      "precision": 0.2682926829268293,
+      "recall": 1.0,
+      "f2": 0.6470588235294118,
+      "pr_auc": 0.16345110230492207,
+      "roc_auc": 0.9226113829513263,
+      "threshold": 0.009861578233540058
+    }
+  }
+}

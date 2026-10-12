@@ -1,0 +1,31 @@
+{
+  "rows": 4018,
+  "first_date": "2015-01-01",
+  "last_date": "2025-12-31",
+  "duplicate_dates": 0,
+  "missing_dates": 0,
+  "lluvia_cerro_hoya_media_mm": {
+    "valid": 4018,
+    "nonzero": 2289,
+    "min": 0.0,
+    "mean": 5.887296910573649,
+    "max": 171.01146806989397,
+    "unique": 2272
+  },
+  "lluvia_cerro_hoya_max_mm": {
+    "valid": 4018,
+    "nonzero": 2289,
+    "min": 0.0,
+    "mean": 9.146667825572903,
+    "max": 221.0224609375,
+    "unique": 2163
+  },
+  "lluvia_cerro_hoya_p90_mm": {
+    "valid": 4018,
+    "nonzero": 2189,
+    "min": 0.0,
+    "mean": 8.086891684220323,
+    "max": 201.62696838378903,
+    "unique": 2094
+  }
+}

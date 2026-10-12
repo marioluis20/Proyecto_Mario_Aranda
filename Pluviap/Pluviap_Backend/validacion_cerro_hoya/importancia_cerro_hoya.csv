@@ -1,0 +1,7 @@
+protocol,feature,mean_importance,median_importance,max_importance,nonzero_runs
+compatible,lluvia_cerro_hoya_1d,0.0,0.0,0.0,0
+compatible,lluvia_cerro_hoya_3d,8.342765249835793e-05,0.0,0.00042335735633969307,4
+compatible,lluvia_cerro_hoya_7d,5.489050527103245e-05,0.0,0.0005489050527103245,1
+purga72h,lluvia_cerro_hoya_1d,0.0,0.0,0.0,0
+purga72h,lluvia_cerro_hoya_3d,5.177304556127638e-05,0.0,0.0004415572329889983,2
+purga72h,lluvia_cerro_hoya_7d,5.6098157074302435e-05,0.0,0.0005609815707430243,1
