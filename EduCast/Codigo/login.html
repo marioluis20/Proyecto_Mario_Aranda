@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Iniciar sesión - EduCast</title>
+  <style>
+    :root{
+      --navy:#1A237E;
+      --accent:#00BCD4;
+      --highlight:#FFEB3B;
+      --muted:#9E9E9E;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box;font-family:'Poppins',sans-serif}
+    body{
+      margin:0;
+      /* 🔹 Fondo con tu imagen local */
+      background-image: url('Imagenes/FondoLogin.png'); /* Ajusta la ruta si cambias la carpeta */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color:var(--navy);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .container{
+      width:100%;
+      max-width:980px;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:32px;
+      align-items:center;
+      background:rgba(255,255,255,0.9);
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.15);
+      padding:32px;
+    }
+
+    /* Left: info panel */
+    .preview{
+      background:linear-gradient(180deg,var(--navy),#1f2a88);
+      color:#fff;
+      padding:40px;
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(26,35,126,0.15);
+    }
+    .preview h1{font-size:28px;margin-bottom:12px}
+    .preview p{color:rgba(255,255,255,0.85);margin-bottom:18px}
+    .preview .btn{
+      display:inline-block;
+      background:var(--accent);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    /* Right: login card */
+    .card{
+      background:var(--card);
+      padding:28px;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.06);
+    }
+    .card h2{margin:0 0 8px 0;color:var(--navy)}
+    .card p{margin:0 0 18px 0;color:var(--muted)}
+
+    .field{margin-bottom:14px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#253061;font-weight:600}
+    input[type="email"], input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:8px;
+      border:1px solid #e6e9f2;
+      font-size:14px;
+    }
+
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .small{font-size:13px;color:var(--muted)}
+    .btn-primary{
+      width:100%;
+      background:var(--navy);
+      color:#fff;
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:6px;
+    }
+    .btn-primary:active{transform:translateY(1px)}
+    .helper{font-size:13px;color:#e53935;margin-top:8px;display:none}
+
+    .actions{display:flex;gap:10px;margin-top:12px}
+    .link{font-size:14px;color:var(--navy);text-decoration:none;font-weight:600}
+    .show-pass{cursor:pointer;font-size:13px;color:var(--muted)}
+
+    /* responsive */
+    @media (max-width:880px){
+      .container{grid-template-columns:1fr; padding:0 8px}
+      .preview{order:2}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="preview" aria-hidden="true">
+      <h1>Bienvenido a EduCast</h1>
+      <p>La plataforma educativa de podcasts escolares. Inicia sesión para crear, compartir y escuchar contenido educativo.</p>
+      <a class="btn" href="main.html" id="preview-open">Regresar al inicio</a>
+    </div>
+
+    <div class="card" role="region" aria-label="Iniciar sesión">
+      <h2>Iniciar sesión</h2>
+      <p>Introduce tus credenciales para continuar en EduCast.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input id="email" name="email" type="email" placeholder="tu@ejemplo.com" required autocomplete="username" />
+        </div>
+
+        <div class="field">
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password" />
+          <div style="display:flex;justify-content:space-between;margin-top:8px;align-items:center">
+            <div class="small"><input id="remember" type="checkbox" /> <label for="remember" style="display:inline">Recordarme</label></div>
+            <div class="show-pass" id="togglePass">Mostrar</div>
+          </div>
+        </div>
+
+        <div class="helper" id="errorMsg" role="alert">Credenciales incorrectas</div>
+
+        <button class="btn-primary" type="submit">Entrar</button>
+      </form>
+
+      <div class="actions" style="margin-top:18px;justify-content:space-between">
+        <a class="link" href="#">¿Olvidaste la contraseña?</a>
+        <a class="link" href="#">Crear cuenta</a>
+      </div>
+
+      <hr style="margin:18px 0;border:none;border-top:1px solid #f0f2f8">
+
+    </div>
+  </div>
+
+  <script>
+    // 🔹 Credenciales de ejemplo
+    const DEMO_EMAIL = "demo@educast.com";
+    const DEMO_PASS  = "Demo1234";
+
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const togglePass = document.getElementById('togglePass');
+    const pwd = document.getElementById('password');
+    const previewOpen = document.getElementById('preview-open');
+
+    // Mostrar/ocultar contraseña
+    togglePass.addEventListener('click', () => {
+      if (pwd.type === 'password') { pwd.type = 'text'; togglePass.textContent = 'Ocultar'; }
+      else { pwd.type = 'password'; togglePass.textContent = 'Mostrar'; }
+    });
+
+    // Redirigir si ya hay sesión
+    const token = localStorage.getItem('educast_token');
+    if (token) {
+      window.location.href = 'main.html';
+    }
+
+    // Manejar inicio de sesión
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+
+      const email = form.email.value.trim().toLowerCase();
+      const password = form.password.value;
+
+      if (!email || !password) {
+        errorMsg.textContent = 'Completa ambos campos.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      if (email === DEMO_EMAIL && password === DEMO_PASS) {
+        const tokenValue = btoa(JSON.stringify({ email, ts: Date.now() }));
+        if (form.remember.checked) {
+          localStorage.setItem('educast_token', tokenValue);
+        } else {
+          sessionStorage.setItem('educast_token', tokenValue);
+        }
+
+        localStorage.setItem('educast_user', email);
+        window.location.href = 'ia.html';
+      } else {
+        errorMsg.textContent = 'Credenciales incorrectas.';
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>

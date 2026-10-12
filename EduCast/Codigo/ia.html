@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduCast IA - Generador de Podcasts</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f5f5f5;
+    }
+
+    /* ==== BARRA LATERAL ==== */
+    .sidebar {
+      width: 260px;
+      background-color: #f5f5f5;
+      border-right: 1px solid #ddd;
+      padding: 25px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      display: block;
+      margin: 0 auto;
+      width: 250px;
+      height: auto;
+      object-fit: contain;
+      margin-left: -3px; /* mueve ligeramente el logo hacia la izquierda */
+    }
+
+    .menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu li {
+      margin: 20px 0;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.1em;
+      padding: 12px 15px;
+      border-radius: 12px;
+      transition: background-color 0.2s, transform 0.2s;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .menu a img {
+      width: 26px;
+      height: 26px;
+    }
+
+    .menu a:hover {
+      background-color: #d9f1ff;
+      transform: scale(1.02);
+    }
+
+    .menu a.active {
+      background-color: #c8e9ff;
+      color: #005fa3;
+    }
+
+    /* ==== CONTACTO ==== */
+    .contacto {
+      font-size: 0.9em;
+      color: #333;
+      margin-top: 40px;
+    }
+
+    .contacto h3 {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+
+    .contacto p {
+      margin: 4px 0;
+    }
+
+    .tutorial-btn {
+      margin-top: 15px;
+      background-color: #88d0f7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .tutorial-btn:hover {
+      background-color: #6cbbe4;
+    }
+
+    /* ==== PANEL PRINCIPAL ==== */
+    .main {
+      flex: 1;
+      background: url("Imagenes/Logo2.png") no-repeat center center/cover;
+      padding: 40px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* ICONOS SUPERIORES */
+    .top-icons {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon {
+      width: 26px;
+      height: 26px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .profile-icon {
+      background-color: #0077cc;
+      color: white;
+    }
+
+    /* ==== CONTENIDO ==== */
+    h1 {
+      color: #222;
+      font-weight: 600;
+      margin-top: 70px;
+    }
+
+    .section {
+      display: none;
+      background-color: rgba(255,255,255,0.85);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      max-width: 750px;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .input-section {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .status {
+      margin-top: 15px;
+      color: #555;
+      font-style: italic;
+    }
+
+    .biblioteca-audio {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f7f7f7;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* === NUEVO: Spinner de carga === */
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #ccc;
+      border-top: 3px solid #0077cc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* === BOTÓN SALIR === */
+    .salir-btn {
+      margin-top: 15px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s;
+    }
+
+    .salir-btn:hover {
+      background-color: #e04343;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- BARRA LATERAL -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo">
+        <img src="Imagenes/Logo.png" alt="Logo EduCast" />
+      </div>
+
+      <ul class="menu">
+        <li><a id="btn-estudio" class="active" onclick="mostrarSeccion('estudio', this)"><img src="Imagenes/Microfono.png" alt="">Mi estudio</a></li>
+        <li><a id="btn-clase" onclick="mostrarSeccion('clase', this)"><img src="Imagenes/Birrete.png" alt="">Mi clase</a></li>
+        <li><a id="btn-biblioteca" onclick="mostrarSeccion('biblioteca', this)"><img src="Imagenes/Libreria.png" alt="">Mi biblioteca</a></li>
+      </ul>
+    </div>
+
+    <div class="contacto">
+      <h3>Contacto</h3>
+      <p>contact@educast.edu</p>
+      <p>Informar un error</p>
+      <p>Términos de servicio</p>
+      <p>Política de privacidad</p>
+      <p>Política de cookies</p>
+      <button class="tutorial-btn">Tutorial</button>
+      <button class="salir-btn" onclick="salir()">🚪 Salir</button>
+    </div>
+  </aside>
+
+  <!-- PANEL PRINCIPAL -->
+  <main class="main">
+    <div class="top-icons">
+      <div class="icon">🔔</div>
+      <div class="icon profile-icon">D</div>
+    </div>
+
+    <!-- Sección Mi Estudio -->
+    <section id="estudio" class="section active">
+      <h1>Generador de Podcasts con IA</h1>
+      <p>Introduce un tema y la inteligencia artificial generará un mini podcast educativo con voz natural.</p>
+      <div class="input-section">
+        <label for="tema">Tema del podcast:</label>
+        <input type="text" id="tema" placeholder="Ejemplo: La fotosíntesis, los planetas, los volcanes..." />
+        <button onclick="generarPodcast()">🎧 Generar Podcast</button>
+        <div class="status" id="status"></div>
+        <div id="resultado"></div>
+      </div>
+    </section>
+
+    <!-- Sección Mi Clase -->
+    <section id="clase" class="section">
+      <h1>Mi Clase</h1>
+      <p>Ingresa tu ID de clase para conectar con los podcasts generados por tu profesor:</p>
+      <div class="input-section">
+        <label for="idClase">ID de Clase:</label>
+        <input type="text" id="idClase" placeholder="Ejemplo: CLASE1234 (demo)">
+        <button onclick="alert('Conexión simulada para la demo')">Conectar</button>
+      </div>
+    </section>
+
+    <!-- Sección Mi Biblioteca -->
+    <section id="biblioteca" class="section">
+      <h1>Mi Biblioteca</h1>
+      <p>Accede a los podcasts generados y guardados localmente.</p>
+      <button onclick="cargarBiblioteca()">🔄 Actualizar lista</button>
+      <div id="listaBiblioteca"></div>
+    </section>
+  </main>
+
+  <script>
+    function mostrarSeccion(id, boton) {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.querySelectorAll(".menu a").forEach(a => a.classList.remove("active"));
+      boton.classList.add("active");
+    }
+
+    async function generarPodcast() {
+      const tema = document.getElementById("tema").value.trim();
+      const status = document.getElementById("status");
+      const resultado = document.getElementById("resultado");
+
+      if (!tema) {
+        status.textContent = "⚠️ Por favor, ingresa un tema antes de generar.";
+        return;
+      }
+
+      status.innerHTML = '⏳ Generando podcast con IA... <span class="loader"></span>';
+      resultado.innerHTML = "";
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/generar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tema })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          status.textContent = "✅ Podcast generado correctamente.";
+          resultado.innerHTML = `
+            <p><strong>Tema:</strong> ${tema}</p>
+            <audio controls src="${data.ruta}?t=${Date.now()}"></audio>
+          `;
+        } else {
+          status.textContent = "❌ Error: " + (data.error || "Error desconocido.");
+        }
+      } catch (err) {
+        status.textContent = "⚠️ Error de conexión con el servidor Flask.";
+        console.error(err);
+      }
+    }
+
+    async function cargarBiblioteca() {
+      const lista = document.getElementById("listaBiblioteca");
+      lista.innerHTML = "⏳ Cargando biblioteca...";
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/api/biblioteca");
+        const data = await res.json();
+
+        if (data.podcasts && data.podcasts.length > 0) {
+          lista.innerHTML = "";
+          data.podcasts.forEach(p => {
+            const nombreLimpio = p.replace(/_\d+.*\.mp3$/, "").replace(".mp3", "");
+            lista.innerHTML += `
+              <div class="biblioteca-audio">
+                🎧 ${nombreLimpio}
+                <audio controls src="mini-podcast/${p}"></audio>
+              </div>
+            `;
+          });
+        } else {
+          lista.innerHTML = "No hay podcasts generados todavía.";
+        }
+      } catch (err) {
+        lista.innerHTML = "⚠️ No se pudo conectar al servidor Flask.";
+        console.error(err);
+      }
+    }
+
+    /* === FUNCIÓN SALIR === */
+    function salir() {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
